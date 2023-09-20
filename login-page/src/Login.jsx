@@ -4,7 +4,10 @@ import './LoginPage.css';
 import axios from 'axios';
 
 const Login= () => {
-    const [data,setData]=useState({uid:"satmis10000",password:"Asdf1234#",blocked:0,})
+    const [data,setData]=useState({uid:"satmis10000",password:"Asdf1234#",blocked:0})
+    const [gotresponse,setGotResponse]=useState(
+        "eyJzZXNzaW9uX2tleSI6ICJveGkzZW02cHV6MDVpaG9hbG1tdGYxc2h0ZHN1YzJ2diIsICJqd3QiOiAiZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnBaQ0k2TVRFeWZRLk54NVR4S0IwR1V2ZGNsN2l1Q19pazhPZzFNUjlBVzJEdEY2MGZENmstNjQiLCAiZmlyc3RfdGltZSI6IDAsICJyb2xlIjogImFkbWluIiwgImJhc2ljX2luZm8iOiB7ImZpcnN0X25hbWUiOiAicmFodWwiLCAibWlkZGxlX25hbWUiOiAiIiwgImxhc3RfbmFtZSI6ICJiYWphaiIsICJtb2JpbGVfbm8iOiAiODgwM"
+        )
 
     function updatedata(e){
         const {name,value}=e.target;
@@ -22,13 +25,7 @@ const Login= () => {
             "payload": encodedPayload,
           };
           console.log(payload);
-         await axios.post(apiUrl, {payload,
-                headers: {
-                  "Content-Type": "application/json",
-                  "Access-Control-Allow-Origin": "*",
-                  "Vary": "Accept"
-                }
-        }).then(response => {
+         await axios.post(apiUrl,payload).then(response => {
          console.log('Response:', response);
         }).catch(error => {
         console.error('Error on 28 line:', error);
@@ -37,6 +34,26 @@ const Login= () => {
             console.log("Error on 32 line",error);
         }
     }
+
+
+    function decoded(){
+        try {
+            const decodedResponse = atob("eyJ1aWQiOiJzYXRtaXMxMDAwMCIsInBhc3N3b3JkIjoiQXNkZjEyMzQjIiwiYmxvY2tlZCI6MH0=");
+            const jsonResponse = JSON.parse(decodedResponse);
+            console.log(jsonResponse);
+            // if (jsonResponse.session_key && jsonResponse.jwt) {
+            //     console.log("Successful login");
+            //   } else {
+            //     console.error("Error in 47:", jsonResponse);
+            //   }
+        } catch (error) {
+            console.log("Error in 50");
+        }
+       
+    }
+
+    // decoded();
+
 
   return (
     <div className="login-container">
