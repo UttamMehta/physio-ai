@@ -1,39 +1,41 @@
-// src/LoginPage.js
-import React from 'react';
-import './LoginPage.css'; // Import your CSS file for styling
+
+import React, { useState } from 'react';
+import './LoginPage.css';
+const axios = require('axios'); 
 
 const Login= () => {
+    const [data,setData]=useState({uid:"",password:"",blocked:0,})
+
+    function updatedata(e){
+        const {name,value}=e.target;
+        setData(prev=>({...prev,[name]:value}));
+    }
 
 
-
+    function check(){
+        const jsonData = JSON.stringify(data);
+        const encodedPayload = btoa(jsonData);
+        const apiUrl = 'https://myphysio.digitaldarwin.in/api/login_v1';
+        const payloadData = {
+            payload: encodedPayload,
+          };
+          axios.post(apiUrl, payloadData)
+  .then(response => {
+    console.log('Response:', response.data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+    }
 
   return (
-    // <div className="login-container">
-    //   <div className="image-container">
-    //     {/* You can replace 'your-image-url.jpg' with your image file */}
-    //     <img src="https://img.freepik.com/premium-vector/network-connection-background-abstract-style_23-2148875738.jpg" alt="Login" />
-    //   </div>
-    //   <div className="login-form">
-      
-//     <h2>Login</h2>
-// <div className="input-container">
-//   <input type="text" placeholder="Username" />
-// </div>
-// <div className="input-container">
-//   <input type="password" placeholder="Password" />
-// </div>
-// <div className="button-container">
-//   <button type="submit">Login</button>
-// </div>
-    //   </div>
-    // </div>
     <div className="login-container">
     <div className="background-image"></div>
     <div className="login-form">
       <img src="https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg" alt="Logo" className="logo" />
       <h2>Login</h2>
-      <input type="text" placeholder="Username" />
-      <input type="password" placeholder="Password" />
+      <input type="text" placeholder="Enter Uid" name="uid" onChange={updatedata}/>
+      <input type="password" placeholder="Enter Password" name="password" onChange={updatedata}/>
       <button type="submit">Login</button>
     </div>
   </div>
