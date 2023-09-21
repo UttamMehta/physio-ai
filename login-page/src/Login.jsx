@@ -6,7 +6,7 @@ import jsPDF from "jspdf"
 
 const Login= () => {
     const [data,setData]=useState({uid:"",password:"",blocked:0})// data will get update but to check login just default added
-    const [login,setLogin]=useState(false);
+    const [login,setLogin]=useState(true);
 
     function updatedata(e){
         const {name,value}=e.target;
@@ -41,7 +41,7 @@ const Login= () => {
             const decodedResponse = atob(response);
             const jsonResponse = JSON.parse(decodedResponse);
             console.log(jsonResponse);
-            localStorage.setItem('user', JSON.stringify(jsonresponse));
+            localStorage.setItem('user', JSON.stringify(jsonResponse));
             setLogin(true);
             // if (jsonResponse.session_key && jsonResponse.jwt) {
             //     console.log("Successful login");
@@ -90,6 +90,7 @@ const Login= () => {
 
 
     function logout(){
+      console.log("93")
       setLogin(false);
       localStorage.removeItem('user');
     }
@@ -99,12 +100,13 @@ const Login= () => {
     <div className="background-image"></div>
     <div className="login-form">
       <img src="https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg" alt="Logo" className="logo" />
-      <h2>Login</h2>
-      <input type="text" placeholder="Enter Uid" name="uid" onChange={updatedata} typeof='text' />
-      <input type="password" placeholder="Enter Password" name="password" onChange={updatedata} typeof="password" />
-      <button type="submit"  disabled={data.password&&data.uid?false:true} onClick={!login?check:logout}>{login?"Login":"Logout"}</button>
+      <h2>{login?"Logout":"Login"}</h2>
+     {!login?<><input type="text" placeholder="Enter Uid" name="uid" onChange={updatedata} typeof='text' />
+      <input type="password" placeholder="Enter Password" name="password" onChange={updatedata} typeof="password" /></>:""}
+      <button type="submit"  disabled={data.password&&data.uid?false:true} onClick={!login?check:logout}>{!login?"Login":"Logout"}</button>
+      <div >{login?<button  onClick={downloadPDF} style={{width:"100%",backgroundColor:"black",height:"35px"}}>Download as PDF</button>:""}</div>
     </div>
-   <>{login?<button onClick={downloadPDF} style={{width:"10%",backgroundColor:"white",height:"35px"}}>Download as PDF</button>:""}</>
+ 
     
   </div>
 
