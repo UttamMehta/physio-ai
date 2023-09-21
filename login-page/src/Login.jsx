@@ -6,7 +6,7 @@ import jsPDF from "jspdf"
 
 const Login= () => {
     const [data,setData]=useState({uid:"",password:"",blocked:0})// data will get update but to check login just default added
-    const [login,setLogin]=useState(true);
+    const [login,setLogin]=useState(false);
 
     function updatedata(e){
         const {name,value}=e.target;
@@ -46,7 +46,7 @@ const Login= () => {
             // if (jsonResponse.session_key && jsonResponse.jwt) {
             //     console.log("Successful login");
             //   } else {
-            //     console.error("Error in 47:", jsonResponse);
+            //     console.error("Error in 49:", jsonResponse);
             //   }
         } catch (error) {
             console.log("Error in 50");
