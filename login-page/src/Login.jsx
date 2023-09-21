@@ -4,10 +4,8 @@ import './LoginPage.css';
 import axios from 'axios';
 
 const Login= () => {
-    const [data,setData]=useState({uid:"satmis10000",password:"Asdf1234#",blocked:0})
-    const [gotresponse,setGotResponse]=useState(
-        "eyJzZXNzaW9uX2tleSI6ICJveGkzZW02cHV6MDVpaG9hbG1tdGYxc2h0ZHN1YzJ2diIsICJqd3QiOiAiZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnBaQ0k2TVRFeWZRLk54NVR4S0IwR1V2ZGNsN2l1Q19pazhPZzFNUjlBVzJEdEY2MGZENmstNjQiLCAiZmlyc3RfdGltZSI6IDAsICJyb2xlIjogImFkbWluIiwgImJhc2ljX2luZm8iOiB7ImZpcnN0X25hbWUiOiAicmFodWwiLCAibWlkZGxlX25hbWUiOiAiIiwgImxhc3RfbmFtZSI6ICJiYWphaiIsICJtb2JpbGVfbm8iOiAiODgwM"
-        )
+    const [data,setData]=useState({uid:"",password:"",blocked:0})// data will get update but to check login just default added
+    const [login,setLogin]=useState(false);
 
     function updatedata(e){
         const {name,value}=e.target;
@@ -27,6 +25,8 @@ const Login= () => {
           console.log(payload);
          await axios.post(apiUrl,payload).then(response => {
          console.log('Response:', response);
+        //  localStorage.setItem('user', JSON.stringify(response));
+        decoded(response);
         }).catch(error => {
         console.error('Error on 28 line:', error);
          });   
@@ -35,12 +35,13 @@ const Login= () => {
         }
     }
 
-
-    function decoded(){
+    function decoded(response){
         try {
-            const decodedResponse = atob("eyJ1aWQiOiJzYXRtaXMxMDAwMCIsInBhc3N3b3JkIjoiQXNkZjEyMzQjIiwiYmxvY2tlZCI6MH0=");
+            const decodedResponse = atob(response);
             const jsonResponse = JSON.parse(decodedResponse);
             console.log(jsonResponse);
+            localStorage.setItem('user', JSON.stringify(jsonresponse));
+            setLogin(true);
             // if (jsonResponse.session_key && jsonResponse.jwt) {
             //     console.log("Successful login");
             //   } else {
