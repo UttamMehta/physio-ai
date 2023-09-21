@@ -1,11 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
-import Login from './Login';
+import AllRoutes from './AllRoutes/AllRoutes';
+import { BrowserRouter } from 'react-router-dom';
+import ChartBoard from './Components/ChartBoard';
+// import Login from './Login';
+
 
 function App() {
   return (
     <div className="App">
-      <Login />
+      <BrowserRouter>
+    <AllRoutes />
+    </BrowserRouter>
     </div>
   );
 }
