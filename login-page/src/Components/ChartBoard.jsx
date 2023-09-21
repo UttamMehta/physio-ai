@@ -1,13 +1,17 @@
 
 import React from 'react'
 import LineChart from '../pages/LineChart';
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function ChartBoard() {
-
+    const navigate = useNavigate();
 
 function logout(){
     console.log("cliked");
     localStorage.removeItem("user");
+    navigate("/");
 }
 
 
