@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import './LoginPage.css';
 import axios from 'axios';
+import jsPDF from "jspdf"
 
 const Login= () => {
     const [data,setData]=useState({uid:"",password:"",blocked:0})// data will get update but to check login just default added
@@ -56,7 +57,8 @@ const Login= () => {
     // decoded();
 
     const downloadPDF = () => {
-      const userDetails = {
+
+      const userDetails = JSON.parse(localStorage.getItem("user")) || {
         name: "John Doe",
         fatherName: "Abcd",
         dob: "January 1, 1990",
@@ -65,24 +67,32 @@ const Login= () => {
         blood_group:"B+",
         signature: "https://pbs.twimg.com/media/D9z0TuNU4AAp6HZ?format=jpg&name=4096x4096",
         enrollment_no:"65451412154",
-      }
+      } // default data if not receive anything from local storage
+
       const pdf = new jsPDF("p", "mm", [110, 100]);
     // const pdf=new jsPDF();
     pdf.setFontSize(10);
      let offsetY = 0;
      let offsetX=0;
      console.log();
-      pdf.addImage("https://upload.wikimedia.org/wikipedia/commons/f/fe/Seal_of_Odisha.png", "JPEG", 0, 5, 30, 30);
-      pdf.addImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOIe0E4d42KwXt6c_WZ8yFjyMOXDdrQ-gXbaidBzmQiQ&s","JPEG",33,5,60,30);
-      pdf.addImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKkUNBkPcoKNOTEradqz8QEFPhhC9afzf2Wa14gLSi&s","JPEG",55,45,40,40);
-      pdf.addImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyHcirjU8r73nJvIRVUO_gxXAsI1X-a9eYpQ4W5M32&s","JPEG",55,90,30,10);
-      pdf.text(5, 48, `Name: ${userDetails.name}`);
-      pdf.text(5, 56, `Father: ${userDetails.fatherName}`);
-      pdf.text(5, 64, `DOB: ${userDetails.dob}`);
-      pdf.text(5, 72, `Gender: ${userDetails.gender}`);
-      pdf.text(5, 80, `Blood Group: ${userDetails.blood_group}`);
-      pdf.text(5, 88, `Enrollment No: ${userDetails.enrollment_no}`);
-      pdf.save("user_details.pdf");}
+      pdf.addImage("https://upload.wikimedia.org/wikipedia/commons/f/fe/Seal_of_Odisha.png", "JPEG", 0, 5, 30, 30);//remove this from response we get from api
+      pdf.addImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOIe0E4d42KwXt6c_WZ8yFjyMOXDdrQ-gXbaidBzmQiQ&s","JPEG",33,5,60,30);//remove this from response we get from api
+      pdf.addImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKkUNBkPcoKNOTEradqz8QEFPhhC9afzf2Wa14gLSi&s","JPEG",55,45,40,40);//remove this from response we get from api
+      pdf.addImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyHcirjU8r73nJvIRVUO_gxXAsI1X-a9eYpQ4W5M32&s","JPEG",55,90,30,10);//remove this from response we get from api
+      pdf.text(5, 48, `Name: ${userDetails.name}`);// remove this from response we get from api
+      pdf.text(5, 56, `Father: ${userDetails.fatherName}`);//remove this from response we get from api
+      pdf.text(5, 64, `DOB: ${userDetails.dob}`);//remove this from response we get from api
+      pdf.text(5, 72, `Gender: ${userDetails.gender}`);//remove this from response we get from api
+      pdf.text(5, 80, `Blood Group: ${userDetails.blood_group}`);//remove this from response we get from api
+      pdf.text(5, 88, `Enrollment No: ${userDetails.enrollment_no}`);//remove this from response we get from api
+      pdf.save("user_details.pdf");
+    }
+
+
+    function logout(){
+      setLogin(false);
+      localStorage.removeItem('user');
+    }
 
   return (
     <div className="login-container">
@@ -92,7 +102,7 @@ const Login= () => {
       <h2>Login</h2>
       <input type="text" placeholder="Enter Uid" name="uid" onChange={updatedata} typeof='text' />
       <input type="password" placeholder="Enter Password" name="password" onChange={updatedata} typeof="password" />
-      <button type="submit"  disabled={data.password&&data.uid?false:true} onClick={!login?check:""}>{login?"Login":"Logout"}</button>
+      <button type="submit"  disabled={data.password&&data.uid?false:true} onClick={!login?check:logout}>{login?"Login":"Logout"}</button>
     </div>
    <>{login?<button onClick={downloadPDF} style={{width:"10%",backgroundColor:"white",height:"35px"}}>Download as PDF</button>:""}</>
     
