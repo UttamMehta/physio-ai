@@ -2,7 +2,18 @@
 import React, { useState } from 'react';
 import './LoginPage.css';
 import axios from 'axios';
-import jsPDF from "jspdf"
+import jsPDF from "jspdf";
+
+let userDefault ={
+  name: "John Doe",
+  fatherName: "Abcd",
+  dob: "January 1, 1990",
+  gender: "Male",
+  photo: "https://i.pinimg.com/originals/6b/7e/d6/6b7ed698713c09ad9e6afc7dcb996a09.jpg",
+  blood_group:"B+",
+  signature: "https://pbs.twimg.com/media/D9z0TuNU4AAp6HZ?format=jpg&name=4096x4096",
+  enrollment_no:"65451412154",
+}
 
 const Login= () => {
     const [data,setData]=useState({uid:"",password:"",blocked:0})// data will get update but to check login just default added
@@ -27,9 +38,14 @@ const Login= () => {
          await axios.post(apiUrl,payload).then(response => {
          console.log('Response:', response);
         //  localStorage.setItem('user', JSON.stringify(response));
+        setLogin(true);
+        alert("loged in with response from api");
         decoded(response);
+
         }).catch(error => {
         console.error('Error on 28 line:', error);
+        setLogin(true);
+        alert("loged in but not got response from api default value will be shown");
          });   
         } catch (error) {
             console.log("Error on 32 line",error);
@@ -57,17 +73,9 @@ const Login= () => {
     // decoded();
 
     const downloadPDF = () => {
-
-      const userDetails = JSON.parse(localStorage.getItem("user")) || {
-        name: "John Doe",
-        fatherName: "Abcd",
-        dob: "January 1, 1990",
-        gender: "Male",
-        photo: "https://i.pinimg.com/originals/6b/7e/d6/6b7ed698713c09ad9e6afc7dcb996a09.jpg",
-        blood_group:"B+",
-        signature: "https://pbs.twimg.com/media/D9z0TuNU4AAp6HZ?format=jpg&name=4096x4096",
-        enrollment_no:"65451412154",
-      } // default data if not receive anything from local storage
+      const userDetails=JSON.parse(localStorage.getItem("user"))||userDefault ;// default data if not receive anything from local storage
+      userDefault=userDetails;
+       
 
       const pdf = new jsPDF("p", "mm", [110, 100]);
     // const pdf=new jsPDF();
@@ -104,7 +112,10 @@ const Login= () => {
      {!login?<><input type="text" placeholder="Enter Uid" name="uid" onChange={updatedata} typeof='text' />
       <input type="password" placeholder="Enter Password" name="password" onChange={updatedata} typeof="password" /></>:""}
       <button type="submit"  disabled={data.password&&data.uid?false:true} onClick={!login?check:logout}>{!login?"Login":"Logout"}</button>
-      <div >{login?<button  onClick={downloadPDF} style={{width:"100%",backgroundColor:"black",height:"35px"}}>Download as PDF</button>:""}</div>
+      <div >{login?<>
+      <h4>{userDefault.name}</h4>
+      <h4>{userDefault.enrollment_no}</h4>
+      <button  onClick={downloadPDF} style={{width:"100%",backgroundColor:"black",height:"35px"}}>Download as PDF</button></>:""}</div>
     </div>
  
     
