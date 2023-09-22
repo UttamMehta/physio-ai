@@ -18,7 +18,7 @@ import jsPDF from "jspdf";
 // }
 
 const Login= () => {
-    const [data,setData]=useState({uid:"",password:"",blocked:0})// data will get update but to check login just default added
+    const [data,setData]=useState({uid:"satmis10000",password:"Asdf1234#",blocked:0})// data will get update but to check login just default added
     const [login,setLogin]=useState(false);
     const navigate = useNavigate();
 
@@ -33,9 +33,11 @@ const Login= () => {
         try {
          const jsonData = JSON.stringify(data);
         const encodedPayload = btoa(jsonData);
-        const apiUrl = 'https://myphysio.digitaldarwin.in/api/login_v1';
+        const apiUrl = 'https://myphysio.digitaldarwin.in/api/login_v1/';
         const payload = {
             "payload": encodedPayload,
+             "device":"mobile", "browser":"chrome","browser_version":1,
+             "os":"mac",
           };
           console.log(payload);
          await axios.post(apiUrl,payload).then(response => {
@@ -55,6 +57,7 @@ const Login= () => {
         alert("loged in but not got response from api default value will be shown");
         navigate("/graph");
          });   
+
         } catch (error) {
             console.log("Error on 32 line",error);
         }
@@ -118,8 +121,8 @@ const Login= () => {
     <div className="login-form">
       <img src="https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg" alt="Logo" className="logo" />
       <h2>{login?"Logout":"Login"}</h2>
-     {!login?<><input type="text" placeholder="Enter Uid" name="uid" onChange={updatedata} typeof='text' />
-      <input type="password" placeholder="Enter Password" name="password" onChange={updatedata} typeof="password" /></>:""}
+     {!login?<><input type="text" placeholder="Enter Uid" name="uid" onChange={updatedata} typeof='text' value={data.uid}/>
+      <input type="password" placeholder="Enter Password" name="password" onChange={updatedata} typeof="password"  value={data.password}/></>:""}
       <button type="submit"  disabled={data.password&&data.uid?false:true} onClick={check}>"Login</button>
       
       {/* <div >{login?<>
@@ -136,3 +139,4 @@ const Login= () => {
 
 export default Login;
 
+//{"payload":"eyJ1aWQiOiJzYXRtaXMxMDAwMCIsInBhc3N3b3JkIjoiQXNkZjEyMzQjIiwiYmxvY2tlZCI6MH0=", "device":"mobile", "browser":"chrome","browser_version":1, "os":"mac"}
