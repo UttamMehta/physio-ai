@@ -33,13 +33,13 @@ const Login= () => {
         try {
          const jsonData = JSON.stringify(data);
         const encodedPayload = btoa(jsonData);
-        const apiUrl = 'https://myphysio.digitaldarwin.in/api/login_v1/';
+        const apiUrl = "https://myphysio.digitaldarwin.in/api/login_v1/";
         const payload = {
             "payload": encodedPayload,
-             "device":"mobile", "browser":"chrome","browser_version":1,
+             "device":"mobile", "browser":"chrome","browser_version":"1",
              "os":"mac",
           };
-          console.log(payload);
+        //   console.log(payload);
          await axios.post(apiUrl,payload).then(response => {
          console.log('Response:', response);
          localStorage.setItem('user', JSON.stringify("true"));
@@ -57,11 +57,48 @@ const Login= () => {
         alert("loged in but not got response from api default value will be shown");
         navigate("/graph");
          });   
+        // let payload=
+        //    { "payload":"eyJ1aWQiOiJzYXRtaXMxMDAwMCIsInBhc3N3b3JkIjoiQXNkZjEyMzQjIiwiYmxvY2tlZCI6MH0=", "device":"mobile", "browser":"chrome","browser_version":"1", "os":"mac"};
+        
+        const requestOptions = {
+            method: 'POST',
+            body:{"payload":"eyJ1aWQiOiJzYXRtaXMxMDAwMCIsInBhc3N3b3JkIjoiQXNkZjEyMzQjIiwiYmxvY2tlZCI6MH0=", "device":"mobile", "browser":"chrome","browser_version":"1", "os":"mac"},
+          };
+
+        let req=await fetch("https://myphysio.digitaldarwin.in/api/login_v1/",{
+            method:"POST",
+            body:JSON.stringify(payload),
+        });
+        console.log(req);
+        let res=await req.json();
+        console.log(res);
 
         } catch (error) {
             console.log("Error on 32 line",error);
         }
     }
+
+    // async function check(){
+    //     try {
+    //         let api="https://myphysio.digitaldarwin.in/api/login_v1/";
+    //         let payload={"payload":"eyJ1aWQiOiJzYXRtaXMxMDAwMCIsInBhc3N3b3JkIjoiQXNkZjEyMzQjIiwiYmxvY2tlZCI6MH0=", "device":"mobile", "browser":"chrome","browser_version":"1", "os":"mac"};
+    
+    //         // let res=JSON.parse(await fetch(api,{
+    //         //     method:"POST",
+    //         //     body:JSON.stringify({payload}),
+    //         //         }))
+    //         let x=await axios.post(api,JSON.stringify(payload)}
+    //         ).then((response)=>{
+    //             console.log(response);
+    //         }).catch((err)=>{
+    //             console.log(err);
+    //         })
+            
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+       //}
+
 
     function decoded(response){
         try {
@@ -82,38 +119,6 @@ const Login= () => {
        
     }
     
-    // decoded();
-
-    // const downloadPDF = () => {
-    //   const userDetails=JSON.parse(localStorage.getItem("user"))||userDefault ;// default data if not receive anything from local storage
-    //   userDefault=userDetails;
-       
-
-    //   const pdf = new jsPDF("p", "mm", [110, 100]);
-    // // const pdf=new jsPDF();
-    // pdf.setFontSize(10);
-    //  let offsetY = 0;
-    //  let offsetX=0;
-    //  console.log();
-    //   pdf.addImage("https://upload.wikimedia.org/wikipedia/commons/f/fe/Seal_of_Odisha.png", "JPEG", 0, 5, 30, 30);//remove this from response we get from api
-    //   pdf.addImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOIe0E4d42KwXt6c_WZ8yFjyMOXDdrQ-gXbaidBzmQiQ&s","JPEG",33,5,60,30);//remove this from response we get from api
-    //   pdf.addImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKkUNBkPcoKNOTEradqz8QEFPhhC9afzf2Wa14gLSi&s","JPEG",55,45,40,40);//remove this from response we get from api
-    //   pdf.addImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyHcirjU8r73nJvIRVUO_gxXAsI1X-a9eYpQ4W5M32&s","JPEG",55,90,30,10);//remove this from response we get from api
-    //   pdf.text(5, 48, `Name: ${userDetails.name}`);// remove this from response we get from api
-    //   pdf.text(5, 56, `Father: ${userDetails.fatherName}`);//remove this from response we get from api
-    //   pdf.text(5, 64, `DOB: ${userDetails.dob}`);//remove this from response we get from api
-    //   pdf.text(5, 72, `Gender: ${userDetails.gender}`);//remove this from response we get from api
-    //   pdf.text(5, 80, `Blood Group: ${userDetails.blood_group}`);//remove this from response we get from api
-    //   pdf.text(5, 88, `Enrollment No: ${userDetails.enrollment_no}`);//remove this from response we get from api
-    //   pdf.save("user_details.pdf");
-    // }
-
-
-    // function logout(){
-    //   console.log("93")
-    //   setLogin(false);
-    //   localStorage.removeItem('user');
-    // }
 
   return (
     <div className="login-container">
@@ -123,7 +128,7 @@ const Login= () => {
       <h2>{login?"Logout":"Login"}</h2>
      {!login?<><input type="text" placeholder="Enter Uid" name="uid" onChange={updatedata} typeof='text' value={data.uid}/>
       <input type="password" placeholder="Enter Password" name="password" onChange={updatedata} typeof="password"  value={data.password}/></>:""}
-      <button type="submit"  disabled={data.password&&data.uid?false:true} onClick={check}>"Login</button>
+      <button type="submit"  disabled={data.password&&data.uid?false:true} onClick={check}>Login</button>
       
       {/* <div >{login?<>
       <h4>Name:{userDefault.name}</h4>
