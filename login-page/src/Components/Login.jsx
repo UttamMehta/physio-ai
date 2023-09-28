@@ -57,13 +57,13 @@ const Login= () => {
         alert("loged in but not got response from api default value will be shown");
         navigate("/graph");
          });   
-        // let payload=
-        //    { "payload":"eyJ1aWQiOiJzYXRtaXMxMDAwMCIsInBhc3N3b3JkIjoiQXNkZjEyMzQjIiwiYmxvY2tlZCI6MH0=", "device":"mobile", "browser":"chrome","browser_version":"1", "os":"mac"};
+        let payload=
+           { "payload":"eyJ1aWQiOiJzYXRtaXMxMDAwMCIsInBhc3N3b3JkIjoiQXNkZjEyMzQjIiwiYmxvY2tlZCI6MH0=", "device":"mobile", "browser":"chrome","browser_version":"1", "os":"mac"};
         
-        // const requestOptions = {
-        //     method: 'POST',
-        //     body:{"payload":"eyJ1aWQiOiJzYXRtaXMxMDAwMCIsInBhc3N3b3JkIjoiQXNkZjEyMzQjIiwiYmxvY2tlZCI6MH0=", "device":"mobile", "browser":"chrome","browser_version":"1", "os":"mac"},
-        //   };
+        const requestOptions = {
+            method: 'POST',
+            body:{"payload":"eyJ1aWQiOiJzYXRtaXMxMDAwMCIsInBhc3N3b3JkIjoiQXNkZjEyMzQjIiwiYmxvY2tlZCI6MH0=", "device":"mobile", "browser":"chrome","browser_version":"1", "os":"mac"},
+          };
 
         let req=await fetch("https://myphysio.digitaldarwin.in/api/login_v1/",{
             method:"POST",
